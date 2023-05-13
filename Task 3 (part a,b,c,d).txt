@@ -1,0 +1,43 @@
+TASK # 03: Create an SQL script for the following scenarios provided below.
+
+PART # A: Write a SQL query to print the names of all customers whose name do not start with John. 
+Sort the result by customer id.
+
+
+SELECT CUSTOMER_NAME 
+FROM CUSTOMER 
+WHERE NOT CUSTOMER_NAME LIKE 'JOHN%' 
+ORDER BY CUSTOMER_ID;
+
+
+PART # B: List the customer id, name, transaction amount from transaction report table, 
+customers who have made transaction— that is, for the customers who appear in the transaction report table.
+Ensure that there no duplicate values in your results.
+
+
+SELECT DISTINCT c.customer_id, c.customer_name, transaction_amount
+FROM Customer c 
+INNER JOIN Transactions t ON c.customer_id = t.customer_id;
+
+
+PART # C:Write a SQL query to join the table shopping order, customers and payment. 
+Show Shopping order_id, Customer Id, name, Payment id, payment date values. 
+
+
+SELECT so.order_id AS shoppingorder_id, c.customer_id, c.customer_name, p.payment_id, p.payment_date
+FROM shoppingorder so
+INNER JOIN customer c ON so.customer_id = c.customer_id
+INNER JOIN payment p ON c.customer_id = p.customer_id;
+
+
+PART #D: Write a query to print the customer’s name, ID, transaction amount, and compute
+the number of transactions, the average transaction amount for each customer. 
+Sort the result by customer id.
+
+
+SELECT c.customer_id, c.customer_name, COUNT(transaction_amount) AS num_transactions, AVG(transaction_amount) AS avg_transaction_amount, SUM(transaction_amount) AS total_transaction_amount
+FROM customer c
+LEFT JOIN transactions tr ON c.customer_id = tr.customer_id
+GROUP BY c.customer_id
+ORDER BY c.customer_id ASC;
+
